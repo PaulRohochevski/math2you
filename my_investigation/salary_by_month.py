@@ -36,12 +36,12 @@ class SalaryByMonth(Investigation):
         return self.__salary_vec.copy()
 
     @property
-    def x(self) -> namedtuple:
+    def dates(self) -> namedtuple:
         """
-        Return x values and x labels inside 'X' namedtuple.
-        :return: 'X' namedtuple.
+        Return dates values and dates labels inside 'Dates' namedtuple.
+        :return: 'Dates' namedtuple.
         """
-        return self._get_x(self.__first_month, np.alen(self.__salary_vec))
+        return self._get_dates(self.__first_month, np.alen(self.__salary_vec))
 
     def add_vec(self, vec: np.ndarray) -> None:
         """

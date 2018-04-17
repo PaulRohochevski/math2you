@@ -6,17 +6,17 @@ import datetime
 
 
 class Investigation(ABC):
-    X = namedtuple('X', ['x_values', 'x_labels'])
+    Dates = namedtuple('Dates', ['x_values', 'x_labels'])
 
     @staticmethod
-    def _get_x(first_month: datetime.date, months_amount: int) -> namedtuple:
+    def _get_dates(first_month: datetime.date, months_amount: int) -> namedtuple:
         Investigation._check_dtype(first_month, datetime.date)
         Investigation._check_dtype(months_amount, int)
         x_values: list = [first_month + relativedelta(months=i) for i in range(months_amount)]
         x_labels: list = [datetime.datetime.strftime(first_month + relativedelta(months=i), '%b %Y') for i in
                           range(months_amount)]
 
-        return Investigation.X(x_values, x_labels)
+        return Investigation.Dates(x_values, x_labels)
 
     @staticmethod
     def _check_dtype(value: object, expected_type: type) -> None:
