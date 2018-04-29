@@ -1,10 +1,10 @@
-from my_investigation.investigation import Investigation
+from my_investigation.ainvestigation import AInvestigation
 from collections import namedtuple
 import numpy as np
 import datetime
 
 
-class SalaryByMonth(Investigation):
+class SalaryByMonth(AInvestigation):
     """
     Middle salary by month in percentage related to December 2009.
     """
@@ -41,7 +41,7 @@ class SalaryByMonth(Investigation):
         Return dates values and dates labels inside 'Dates' namedtuple.
         :return: 'Dates' namedtuple.
         """
-        return self._get_dates(self.__first_month, np.alen(self.__salary_vec))
+        return self._get_dates_range(self.__first_month, np.alen(self.__salary_vec))
 
     def add_vec(self, vec: np.ndarray) -> None:
         """
@@ -77,3 +77,11 @@ class SalaryByMonth(Investigation):
         scalar = scalar if scalar < self.D else scalar / self.D
         scalar = scalar / self.__first_month_val * 100
         self.__salary_vec = np.append(self.__salary_vec, scalar)
+
+    def __repr__(self):
+        l = []
+        for attr in ['_SalaryByMonth__first_month', '_SalaryByMonth__first_month_val']:
+            value = getattr(self, attr)
+            if value:
+                l.append("{attr}={value}".format(attr=attr[16:], value=repr(value)))
+        return "{classname}({attrs})".format(classname=self.__class__.__name__, attrs=", ".join(l))

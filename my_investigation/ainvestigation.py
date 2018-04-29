@@ -5,18 +5,21 @@ import numpy as np
 import datetime
 
 
-class Investigation(ABC):
+class AInvestigation(ABC):
     Dates = namedtuple('Dates', ['x_values', 'x_labels'])
 
     @staticmethod
-    def _get_dates(first_month: datetime.date, months_amount: int) -> namedtuple:
-        Investigation._check_dtype(first_month, datetime.date)
-        Investigation._check_dtype(months_amount, int)
-        x_values: list = [first_month + relativedelta(months=i) for i in range(months_amount)]
-        x_labels: list = [datetime.datetime.strftime(first_month + relativedelta(months=i), '%b %Y') for i in
-                          range(months_amount)]
+    def _get_dates_range(start_date: datetime.date, data_points_amount: int, by: str = 'months',
+                         fmt: str = '%b %Y') -> namedtuple:
+        AInvestigation._check_dtype(start_date, datetime.date)
+        AInvestigation._check_dtype(data_points_amount, int)
+        AInvestigation._check_dtype(by, str)
+        AInvestigation._check_dtype(fmt, str)
 
-        return Investigation.Dates(x_values, x_labels)
+        x_values: list = eval(f"[start_date + relativedelta({by}=i) for i in range(data_points_amount)]")
+        x_labels: list = [datetime.datetime.strftime(i, fmt) for i in x_values]
+
+        return AInvestigation.Dates(x_values, x_labels)
 
     @staticmethod
     def _check_dtype(value: object, expected_type: type) -> None:

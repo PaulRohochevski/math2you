@@ -1,10 +1,10 @@
-from my_investigation.investigation import Investigation
+from my_investigation.ainvestigation import AInvestigation
 from collections import namedtuple
 import numpy as np
 import datetime
 
 
-class CPIByMonth(Investigation):
+class CPIByMonth(AInvestigation):
     """
     Consumer price index by month in percentage related to December 2009.
     """
@@ -38,7 +38,7 @@ class CPIByMonth(Investigation):
         Return dates values and dates labels inside 'Dates' namedtuple.
         :return: 'Dates' namedtuple.
         """
-        return self._get_dates(self.__first_month, np.alen(self.__cpi_vec))
+        return self._get_dates_range(self.__first_month, np.alen(self.__cpi_vec))
 
     def add_vec(self, vec: np.ndarray) -> None:
         """
@@ -76,3 +76,11 @@ class CPIByMonth(Investigation):
         scalar = scalar / np.float64(100)
         scalar = self.__cpi_vec[-1:] * scalar
         self.__cpi_vec = np.append(self.__cpi_vec, scalar)
+
+    def __repr__(self):
+        l = []
+        for attr in ['_CPIByMonth__first_month', '_CPIByMonth__first_month_val']:
+            value = getattr(self, attr)
+            if value:
+                l.append("{attr}={value}".format(attr=attr[13:], value=repr(value)))
+        return "{classname}({attrs})".format(classname=self.__class__.__name__, attrs=", ".join(l))

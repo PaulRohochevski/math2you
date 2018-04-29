@@ -1,6 +1,7 @@
 from my_investigation.salary_by_month import SalaryByMonth
 from my_investigation.cpi_by_month import CPIByMonth
 from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
 from my_investigation.r_f import get_r2, get_f
 from sklearn.metrics import mean_squared_error
 from my_investigation.datasets.salary import *
@@ -14,16 +15,14 @@ cpi.add_vec(np.concatenate((cpi_2010, cpi_2011, cpi_2012, cpi_2013, cpi_2014, cp
                             cpi_2018), axis=0))
 salary.add_vec(np.concatenate((salary_2010, salary_2011, salary_2012, salary_2013, salary_2014, salary_2015,
                                salary_2016, salary_2017, salary_2018), axis=0))
-# lr.coef_ -> 1.68944523
-# lr: LinearRegression = LinearRegression(fit_intercept=True, normalize=True, copy_X=True)
 
-# lr.coef_ -> 1.49375721
 lr: LinearRegression = LinearRegression(fit_intercept=False, normalize=False, copy_X=True)
 
+# X_train, X_test, y_train, y_test = train_test_split(cpi.cpi, salary.salary, shuffle=False)
+
 lr.fit(cpi.cpi.reshape(-1, 1), salary.salary.reshape(-1, 1))
-# x_test = np.linspace(100, 600, 21).reshape(-1, 1)
 x_test = cpi.cpi.reshape(-1, 1)
-y_pred = lr.predict(x_test)
+y_pred = lr.predict(X=x_test)
 r2 = get_r2(cpi.cpi, salary.salary)
 f = get_f(r2, np.alen(cpi.cpi), 2)
 
